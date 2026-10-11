@@ -11,7 +11,10 @@ Subtitles are written in the language spoken in the video. The app does not tran
 
 ## Demo
 
-![Uploading a video, waiting for it to process, and downloading the subtitled result](docs/demo.gif)
+Uploading a video, waiting for it to process, and downloading the subtitled result:
+
+https://github.com/user-attachments/assets/3a27ce5c-6124-45fe-b9e8-a0a03f3a3a47
+
 
 | Upload | Result | Light mode |
 | --- | --- | --- |
