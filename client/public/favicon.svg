@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Shadow for main container -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    
+    <!-- Shadow for floating badge -->
+    <filter id="badge-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+
+    <!-- Gradients -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E2330"/>
+      <stop offset="100%" stop-color="#13161F"/>
+    </linearGradient>
+
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    
+    <linearGradient id="textLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Top Handle/Clip Accent -->
+  <rect x="206" y="32" width="100" height="40" rx="16" fill="url(#headerGrad)" />
+  <rect x="222" y="44" width="68" height="16" rx="8" fill="#1E2330" opacity="0.9"/>
+
+  <!-- Main Card Body -->
+  <rect x="96" y="68" width="320" height="388" rx="40" fill="url(#cardGrad)" filter="url(#shadow)"/>
+
+  <!-- Inner Screen / Video Canvas Area -->
+  <rect x="124" y="104" width="264" height="180" rx="20" fill="#141822"/>
+  
+  <!-- Kinetic Motion Lines (Representing Kinetic Subtitles & Video Motion) -->
+  <path d="M145 135 H200" stroke="#2B354D" stroke-width="6" stroke-linecap="round"/>
+  <path d="M145 153 H180" stroke="#2B354D" stroke-width="6" stroke-linecap="round"/>
+  
+  <!-- Video Play Triangle Symbol -->
+  <path d="M242 166 L278 188 L242 210 Z" fill="#3B82F6" opacity="0.85"/>
+
+  <!-- Kinetic Subtitle Overlay Bar -->
+  <rect x="144" y="222" width="224" height="46" rx="12" fill="#1E293B" opacity="0.9" stroke="#334155" stroke-width="2"/>
+  <!-- Animated / Bold Kinetic Text Blocks -->
+  <rect x="160" y="238" width="55" height="14" rx="7" fill="url(#textLineGrad)"/>
+  <rect x="223" y="238" width="85" height="14" rx="7" fill="#94A3B8"/>
+  <rect x="316" y="238" width="36" height="14" rx="7" fill="#64748B"/>
+
+  <!-- Lower Subtitle Translation Output Slots -->
+  <g opacity="0.85">
+    <rect x="124" y="306" width="264" height="42" rx="12" fill="#1A202C"/>
+    <rect x="144" y="321" width="120" height="12" rx="6" fill="#475569"/>
+    <rect x="272" y="321" width="40" height="12" rx="6" fill="#334155"/>
+
+    <rect x="124" y="360" width="180" height="42" rx="12" fill="#1A202C"/>
+    <rect x="144" y="375" width="90" height="12" rx="6" fill="#334155"/>
+  </g>
+
+  <!-- Green Action Badge: Translator Icon (A ⇄ 文) -->
+  <circle cx="352" cy="368" r="44" fill="url(#accentGrad)" filter="url(#badge-shadow)"/>
+  
+  <!-- Translator Symbol inside Green Circle -->
+  <g transform="translate(328, 344) scale(0.85)" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Letter A -->
+    <path d="M 12 15 L 18 30 M 24 15 L 18 30 M 14 25 L 22 25" stroke-width="3"/>
+    <!-- Exchange Arrows -->
+    <path d="M 12 36 L 42 36 M 36 31 L 42 36 L 36 41" stroke-width="3"/>
+    <path d="M 42 12 L 12 12 M 18 7 L 12 12 L 18 17" stroke-width="3"/>
+    <!-- Asian Character Symbol -->
+    <path d="M 33 18 L 43 18 M 38 18 L 38 30 M 32 23 C 36 26 40 28 44 30" stroke-width="3"/>
+  </g>
+</svg>
