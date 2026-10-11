@@ -1,0 +1,55 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+
+/* Make the `dark:` variant follow the data-theme attribute on <html>. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Dark is the default. */
+:root {
+  color-scheme: dark;
+
+  --page: #0A1520;
+  --surface: #101E2C;
+  --ink: #E9EEF3;
+  --muted: #9AABBB;
+  --line: #223445;
+  --brand: #4CC9B8;
+  --brand-hover: #6FD8CA;
+  --brand-ink: #06231F;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --page: #F4F6F8;
+  --surface: #FFFFFF;
+  --ink: #12202F;
+  --muted: #5B6B7B;
+  --line: #D9E0E7;
+  --brand: #0E5E57;
+  --brand-hover: #0A4B45;
+  --brand-ink: #FFFFFF;
+}
+
+@theme inline {
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-ink: var(--brand-ink);
+  --color-navy: #0E1F33;
+}
+
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
