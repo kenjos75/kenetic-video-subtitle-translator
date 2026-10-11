@@ -4,11 +4,15 @@ import shutil
 import subprocess
 import tempfile
 from pathlib import Path
+import logging
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from starlette.background import BackgroundTask
 from fastapi.responses import FileResponse
 from faster_whisper import WhisperModel
+
+
+logger = logging.getLogger("uvicorn.error")
 
 app = FastAPI(title="Video Subtitle API")
 
@@ -16,11 +20,14 @@ MAX_FILE_SIZE = 500 * 1024 * 1024  # 500 MB
 ALLOWED_EXTENSIONS = {".mp4", ".mov", ".mkv", ".webm"}
 
 # Load the model once, not for every request.
-model = WhisperModel(
-    "small",
-    device="cpu",
-    compute_type="int8",
-)
+MODEL_DIR = Path(__file__).resolve().parent / "models" / "small"
+
+if not (MODEL_DIR / "model.bin").exists():
+    raise RuntimeError(f"Whisper model not found in {MODEL_DIR}.")
+
+print("Loading Whisper model...", flush=True)
+model = WhisperModel(str(MODEL_DIR), device="cpu", compute_type="int8")
+print("Whisper model loaded.", flush=True)
 
 
 def format_timestamp(seconds: float) -> str:
@@ -82,7 +89,7 @@ def health_check():
     return {"status": "ok"}
 
 
-@app.post("/process")
+@app.post("/api/process")
 def process_video(file: UploadFile = File(...)):
     extension = Path(file.filename or "").suffix.lower()
 
@@ -162,13 +169,14 @@ def process_video(file: UploadFile = File(...)):
         raise
 
     except FileNotFoundError:
+        logger.exception("File not found while processing")
         shutil.rmtree(work_dir, ignore_errors=True)
         raise HTTPException(
             status_code=500,
             detail="FFmpeg was not found or a required file is missing.",
         )
-
-    except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError as exc:
+        logger.error("ffmpeg failed:\n%s", exc.stderr)
         shutil.rmtree(work_dir, ignore_errors=True)
         raise HTTPException(
             status_code=500,
@@ -176,6 +184,7 @@ def process_video(file: UploadFile = File(...)):
         )
 
     except Exception:
+        logger.exception("Video processing failed")
         shutil.rmtree(work_dir, ignore_errors=True)
         raise HTTPException(
             status_code=500,
