@@ -1,13 +1,14 @@
 # Kenetic Video Subtitle Translator
 
-Upload a video, and the app transcribes the speech and adds the subtitles directly onto the video. When it's done, you can preview the result and download it.
+Upload a video, and the app listens to the speech, translates it into English, and burns the English subtitles directly onto the video. When it's done, you can preview the result and download it.
 
 - Supports MP4, MOV, MKV and WebM videos up to 500 MB
+- Speech in other languages (for example Tagalog) is translated into English subtitles
 - Speech-to-text runs locally with [faster-whisper](https://github.com/SYSTRAN/faster-whisper), so your videos are not sent to any third-party service
 - Subtitles are burned into the video with FFmpeg
 - Dark and light theme, with dark as the default
 
-Subtitles are written in the language spoken in the video. The app does not translate them into another language.
+Speech in any language Whisper supports is translated into English subtitles. If the speech is already in English, the subtitles are simply the transcription. Translation quality depends on the language and the Whisper model size.
 
 ## Demo
 
@@ -37,7 +38,7 @@ kenetic-video-subtitle-translator/
 │   ├── index.py            API and video processing
 │   ├── requirements.txt    Python dependencies
 │   └── models/small/       Whisper model files (downloaded in step 2, not committed)
-├── docs/                   Demo GIF and screenshots used in this README
+├── docs/                   Demo video and screenshots used in this README
 ├── .dockerignore
 ├── docker-compose.yml
 ├── Dockerfile-client
@@ -91,8 +92,8 @@ The page reads `isIdle`, `isPending`, `isSuccess` and `isError` straight from th
 
 1. Check the file extension.
 2. Save the upload in 1 MB chunks and stop at 500 MB.
-3. Transcribe the audio with faster-whisper (voice activity detection on).
-4. Write the timestamped subtitles to an `.srt` file (`generate_srt`).
+3. Transcribe and translate the speech into English with faster-whisper (voice activity detection on).
+4. Write the timestamped English subtitles to an `.srt` file (`generate_srt`).
 5. Burn the subtitles into the video with FFmpeg (`burn_subtitles`).
 6. Return the video and delete the temporary folder.
 
@@ -188,7 +189,7 @@ Health check. Returns `{"status": "ok"}`.
 
 ### `POST /api/process`
 
-Uploads a video and returns the subtitled video.
+Uploads a video and returns the video with English subtitles burned in.
 
 - **Body:** `multipart/form-data` with a `file` field
 - **Success:** `200` with the video as `video/mp4`
@@ -206,7 +207,7 @@ Errors return JSON like `{"detail": "..."}`:
 | 400 | Unsupported format, or the file is empty |
 | 413 | File is larger than 500 MB |
 | 422 | No speech was found, so no subtitles were created |
-| 500 | Transcription or video rendering failed |
+| 500 | Transcription, translation or video rendering failed |
 
 Uploaded and generated files are stored in a temporary folder and deleted after each request.
 
@@ -224,7 +225,7 @@ If you change the upload limit or formats, change them in both the backend and t
 
 ### Using a different Whisper model
 
-Smaller models are faster but less accurate, and larger ones are more accurate but slower. To switch, download another model into its own folder, for example:
+Smaller models are faster but less accurate, and larger ones are more accurate but slower. Translation quality for languages such as Tagalog generally improves with a larger model. To switch, download another model into its own folder, for example:
 
 ```bash
 docker compose run --rm --no-deps python-service-fastapi python -c "from huggingface_hub import snapshot_download; snapshot_download('Systran/faster-whisper-base', local_dir='/app/models/base')"
