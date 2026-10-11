@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  python-service-fastapi:
+    environment:
+      - HF_TOKEN=putyourhftokenhere
+    container_name: fastapi_container
+    tty: true
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./server:/app
