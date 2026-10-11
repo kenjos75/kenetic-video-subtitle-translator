@@ -1,15 +1,29 @@
 version: '3.9'
 
 services:
+  react-service:
+    environment:
+      - API_PROXY_TARGET=http://python-service-fastapi:8000
+    tty: true
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: Dockerfile-client
+    container_name: react_container
+    restart: "no"
+    ports:
+      - '5173:5173'
+    volumes:
+      - ./client:/app
   python-service-fastapi:
     environment:
-      - HF_TOKEN=putyourhftokenhere
+      - HF_TOKEN=replacewithyourhftoken
     container_name: fastapi_container
     tty: true
     stdin_open: true
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-server
     restart: always
     ports:
       - '8000:8000'
