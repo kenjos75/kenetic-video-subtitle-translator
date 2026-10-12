@@ -12,7 +12,7 @@ Speech in any language Whisper supports is translated into English subtitles. If
 
 ## Demo
 
-Demonstrating on how to use the kenetic-video-subtitle-translator
+Demonstrating on how to use the Kenetic Video Subtitle Translator
 
 https://github.com/user-attachments/assets/3a27ce5c-6124-45fe-b9e8-a0a03f3a3a47
 
